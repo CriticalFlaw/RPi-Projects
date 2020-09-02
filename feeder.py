@@ -38,7 +38,7 @@ def send_email(feedtime):
   smtpserver.login(gmail_user, gmail_pwd)
   header = 'To:' + to + '\n' + 'From: ' + gmail_user + '\n' + 'Subject: CatFeeder: Leo has been successfully fed! \n'
   #print header
-  msg = header + '\nLeo was fed on ' + fedtime + '.\n\nNext feeding time is ' + feedtime + '.\n\n'
+  msg = header + '\nThe cats have been fed on ' + fedtime + '.\n\nNext feeding time is ' + feedtime + '.\n\n'
   #print msg
   smtpserver.sendmail(gmail_user, to, msg)
   smtpserver.close()
@@ -68,7 +68,7 @@ def feed():
 
 def getfeedtime():
   time = datetime.now()
-  morning = time.replace(hour=7, minute=0,second=0)
+  morning = time.replace(hour=8, minute=0,second=0)
   evening = time.replace(hour=17, minute=0,second=0)
   # Determine the next feeding time
   if time < morning and time < evening:
@@ -91,15 +91,16 @@ while True:
   if now == feedtime:
     # Set the time varaible for when we send the notification email.
     feedtime=datetime.now(timezone('US/Central'))
-    print "Leo Feeding Time! Dispensing food..."
+    print "Feeding Time! Dispensing food..."
     time.sleep(5)
-    feed()
+    for _ in range(2):
+      feed()
     # Get the next feeding time
     feedtime = getfeedtime()
     # Send the email
-    print "Sending the email notification..."
+    #print "Sending the email notification..."
     time.sleep(5)
-    send_email(feedtime)
+    #send_email(feedtime)
     print "Next feeding session is on %s" % feedtime
 
   # Update the feeding time each day
